@@ -1,0 +1,78 @@
+﻿<Window x:Class="ChartsDemo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ScottPlot="clr-namespace:ScottPlot.WPF;assembly=ScottPlot.WPF"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        Title="ChartsDemo" 
+        WindowState="Maximized"
+        DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            
+            <ListView Grid.Column="0"
+                      ItemsSource="{Binding Path=Slices}"
+                      SelectedItem="{Binding Path=SelectedSlice}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Название" 
+                                        DisplayMemberBinding="{Binding Path=Label}"/>
+                        <GridViewColumn Header="Значение" 
+                                        DisplayMemberBinding="{Binding Path=Value}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            
+            <StackPanel Grid.Column="1">
+                <StackPanel DataContext="{Binding Path=SelectedSlice}">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Название"
+                               Target="InputLabel"/>
+                        <TextBox x:Name="InputLabel"
+                                 Text="{Binding Path=Label}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Значение"
+                               Target="InputValue"/>
+                        <TextBox x:Name="InputValue"
+                                 Text="{Binding Path=Value}"/>
+                    </StackPanel>
+                    
+                    <StackPanel>
+                        <Label Content="Цвет"
+                               Target="ColorPicker"/>
+                        <xctk:ColorPicker x:Name="ColorPicker"
+                                          SelectedColor="{Binding Path=FillColor}"/>
+                    </StackPanel>
+                </StackPanel>
+                
+                <StackPanel>
+                    <Button x:Name="ButtonDelete"
+                            Content="Удалить"
+                            Click="ButtonDelete_OnClick"/>
+                    <Button x:Name="ButtonClear"
+                            Content="Очистить"
+                            Click="ButtonClear_OnClick"/>
+                    <Button x:Name="ButtonSave"
+                            Content="Сохранить"
+                            Click="ButtonSave_OnClick"/>
+                    <Button x:Name="ButtonShow"
+                            Content="Построить диаграмму"
+                            Click="ButtonShow_OnClick"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+        
+        <Grid Grid.Row="1">
+            <ScottPlot:WpfPlot x:Name="Pie"/>
+        </Grid>
+    </Grid>
+</Window>
